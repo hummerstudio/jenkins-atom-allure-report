@@ -104,7 +104,8 @@ public class AllureReportAtom implements AtomTask {
                 .data("broken", String.valueOf(broken))
                 .data("skipped", String.valueOf(skipped))
                 .data("durationMs", String.valueOf(durationMs))
-                .data("report", reportDir + "/index.html");
+                // .report() writes the structured field the runner archives; a plain string is just text
+                .report("report", title, outDir.toString(), "index.html");
         if (failOnFailure && (failed + broken) > 0) {
             AtomResult error = AtomResult.error(ErrorType.USER, 40004,
                     (failed + broken) + " test(s) did not pass: " + String.join("; ", limit(failures, 5)));
@@ -114,7 +115,7 @@ public class AllureReportAtom implements AtomTask {
                     .data("failed", String.valueOf(failed))
                     .data("broken", String.valueOf(broken))
                     .data("skipped", String.valueOf(skipped))
-                    .data("report", reportDir + "/index.html");
+                    .report("report", title, outDir.toString(), "index.html");
         }
         return result;
     }

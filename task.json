@@ -1,7 +1,7 @@
 {
   "atomCode": "allure-report",
   "name": "Allure report",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Reads allure-results and writes one self-contained HTML report with the counts.",
   "execution": {
     "packagePath": "allure-report.jar",
@@ -57,9 +57,7 @@
     },
     "report": {
       "type": "report",
-      "label": "Allure",
-      "path": "out/allure-report",
-      "target": "index.html"
+      "description": "构建页内嵌的 HTML 报告"
     }
   },
   "x-jenkins": {
