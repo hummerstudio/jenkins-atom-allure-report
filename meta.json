@@ -1,0 +1,12 @@
+{
+  "name": "Allure report",
+  "summary": "Reads allure-results and writes one self-contained HTML report with the counts.",
+  "author": "hummerstudio",
+  "license": "MIT",
+  "tags": [
+    "official-port",
+    "allure",
+    "report"
+  ],
+  "homepage": "https://github.com/hummerstudio/jenkins-atom-allure-report"
+}
