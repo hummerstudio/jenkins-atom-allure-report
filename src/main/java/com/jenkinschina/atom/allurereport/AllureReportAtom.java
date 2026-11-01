@@ -39,14 +39,25 @@ public class AllureReportAtom implements AtomTask {
         }
 
         List<Map<?, ?>> results_ = new ArrayList<>();
+        List<String> unreadable = new ArrayList<>();
         for (Path file : Glob.find(workspace, resultsDir.replaceAll("/+$", "") + "/*-result.json")) {
             try {
                 if (Json.parse(Files.readString(file, StandardCharsets.UTF_8)) instanceof Map<?, ?> result) {
                     results_.add(result);
+                } else {
+                    unreadable.add(file.getFileName() + ": not a JSON object");
                 }
             } catch (RuntimeException e) {
-                context.log("[allure] skipping " + workspace.relativize(file) + ": " + e.getMessage());
+                // a truncated *-result.json used to disappear from the report in silence, which reads as
+                // "that test never ran" rather than "the results directory is damaged"
+                unreadable.add(file.getFileName() + ": " + e.getMessage());
             }
+        }
+        boolean allowUnreadable = context.getBooleanParam("allowUnreadableReports", false);
+        if (!unreadable.isEmpty() && !allowUnreadable) {
+            return AtomResult.error(ErrorType.USER, 40003,
+                    unreadable.size() + " allure result file(s) could not be parsed: " + unreadable.get(0)
+                            + " (set allowUnreadableReports=true to accept this)");
         }
         if (results_.isEmpty()) {
             return AtomResult.error(ErrorType.USER, 40002, "no *-result.json under " + resultsDir);

@@ -69,4 +69,15 @@ ws3="$(mktemp -d)"; printf '{}' >"$ws3/input.json"
 run "$ws3" >"$ws3/atom.log" 2>&1 && fail "a missing results directory must be refused"
 grep -q "no allure results at" "$ws3/output.json" || fail "message: $(cat "$ws3/output.json")"
 
-echo "smoke ok: counts, named failures, report page, gate, all-green, missing results"
+# a result file that cannot be parsed must not vanish from the report in silence
+ws3="$(mktemp -d)"; mkdir -p "$ws3/allure-results"
+printf '{"uuid":"x","name":"t","status":"passed","stage":"s","start":1000,"stop":1100,"labels":[],"statusDetails":{}}' >"$ws3/allure-results/ok-result.json"
+printf '{"uuid": "half", "name": "trunc' >"$ws3/allure-results/half-result.json"
+printf '{}' >"$ws3/input.json"
+if run "$ws3" >"$ws3/atom.log" 2>&1; then fail "a truncated result file must fail the step"; fi
+grep -q '"errorCode":40003' "$ws3/output.json" || fail "expected errorCode 40003: $(cat "$ws3/output.json")"
+grep -q 'half-result.json' "$ws3/output.json" || fail "the failure must name the file: $(cat "$ws3/output.json")"
+printf '{"allowUnreadableReports": "true"}' >"$ws3/input.json"
+run "$ws3" >"$ws3/atom.log" 2>&1 || fail "allowUnreadableReports should let it through: $(cat "$ws3/output.json")"
+
+echo "smoke ok: counts, named failures, report page, gate, all-green, missing results, truncated result fails by default"

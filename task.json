@@ -1,7 +1,7 @@
 {
   "atomCode": "allure-report",
   "name": "Allure report",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Reads allure-results and writes one self-contained HTML report with the counts.",
   "execution": {
     "packagePath": "allure-report.jar",
@@ -27,6 +27,11 @@
     "failOnFailure": {
       "label": "有失败用例就让这一步失败",
       "type": "checkbox",
+      "default": "false"
+    },
+    "allowUnreadableReports": {
+      "label": "结果文件解析失败也继续（默认 false：解析失败即失败）",
+      "type": "boolean",
       "default": "false"
     }
   },
