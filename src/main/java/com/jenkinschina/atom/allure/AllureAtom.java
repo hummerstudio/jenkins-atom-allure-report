@@ -1,4 +1,4 @@
-package com.jenkinschina.atom.allurereport;
+package com.jenkinschina.atom.allure;
 
 import com.jenkinschina.atom.sdk.AtomContext;
 import com.jenkinschina.atom.sdk.AtomResult;
@@ -22,13 +22,13 @@ import java.util.Map;
  * tests — is just JSON. This reads {@code *-result.json} files, counts what happened, and writes one self-contained
  * HTML page, so it works on an agent with no JVM toolchain beyond the one running this atom.
  */
-public class AllureReportAtom implements AtomTask {
+public class AllureAtom implements AtomTask {
 
     @Override
     public AtomResult run(AtomContext context) throws Exception {
         Path workspace = context.getWorkspace();
         String resultsDir = context.getParam("resultsDir", "allure-results");
-        String reportDir = context.getParam("reportDir", "out/allure-report");
+        String reportDir = context.getParam("reportDir", "out/allure");
         String title = context.getParam("title", "Allure report");
         boolean failOnFailure = context.getBooleanParam("failOnFailure", false);
 

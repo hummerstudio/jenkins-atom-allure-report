@@ -35,9 +35,9 @@ mkdir -p "$classes/META-INF/services"
 cp src/main/resources/META-INF/services/* "$classes/META-INF/services/"
 ( cd "$sdk" && "$JAR" xf "$SDK_JAR" && rm -rf META-INF/MANIFEST.MF META-INF/services )
 
-rm -rf dist/allure-report
-mkdir -p dist/allure-report
-"$JAR" --create --file dist/allure-report/allure-report.jar -C "$classes" . -C "$sdk" .
-cp task.json dist/allure-report/
-[ -f meta.json ] && cp meta.json dist/allure-report/
-echo "built dist/allure-report: $(ls dist/allure-report | tr '\n' ' ')"
+rm -rf dist/allure
+mkdir -p dist/allure
+"$JAR" --create --file dist/allure/allure.jar -C "$classes" . -C "$sdk" .
+cp task.json dist/allure/
+[ -f meta.json ] && cp meta.json dist/allure/
+echo "built dist/allure: $(ls dist/allure | tr '\n' ' ')"

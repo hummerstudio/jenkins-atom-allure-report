@@ -1,12 +1,12 @@
 {
-  "atomCode": "allure-report",
+  "atomCode": "allure",
   "name": "Allure report",
   "version": "1.1.0",
   "description": "Reads allure-results and writes one self-contained HTML report with the counts.",
   "execution": {
-    "packagePath": "allure-report.jar",
+    "packagePath": "allure.jar",
     "language": "java",
-    "target": "$atom_java_path -cp allure-report.jar com.jenkinschina.atom.sdk.AtomRunner"
+    "target": "$atom_java_path -cp allure.jar com.jenkinschina.atom.sdk.AtomRunner"
   },
   "input": {
     "resultsDir": {
@@ -17,7 +17,7 @@
     "reportDir": {
       "label": "报告输出目录",
       "type": "vuex-input",
-      "default": "out/allure-report"
+      "default": "out/allure"
     },
     "title": {
       "label": "报告标题",

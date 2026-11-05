@@ -1,4 +1,4 @@
-# jenkins-atom-allure-report
+# jenkins-atom-allure
 
 把 `allure-results` 变成报告，不需要 Allure CLI。
 

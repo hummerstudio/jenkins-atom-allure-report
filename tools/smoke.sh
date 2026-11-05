@@ -35,15 +35,15 @@ run "$ws" >"$ws/atom.log" 2>&1 || fail "run failed: $(cat "$ws/output.json")"
 [ "$(output "$ws" failed)" = "1" ] || fail "failed: $(cat "$ws/output.json")"
 [ "$(output "$ws" broken)" = "1" ] || fail "broken: $(cat "$ws/output.json")"
 [ "$(output "$ws" skipped)" = "1" ] || fail "skipped: $(cat "$ws/output.json")"
-[ -f "$ws/out/allure-report/index.html" ] || fail "no report page"
-grep -q "expected 200, got 500" "$ws/out/allure-report/index.html" || fail "the failure message is not in the report"
-grep -q "checkout" "$ws/out/allure-report/index.html" || fail "the failing test is not named"
-grep -q 'class="card"' "$ws/out/allure-report/index.html" || fail "the report has no cards"
-python3 - "$ws/output.json" "$ws/out/allure-report" <<'PY' || fail "the report field must carry a path so the runner can archive it"
+[ -f "$ws/out/allure/index.html" ] || fail "no report page"
+grep -q "expected 200, got 500" "$ws/out/allure/index.html" || fail "the failure message is not in the report"
+grep -q "checkout" "$ws/out/allure/index.html" || fail "the failing test is not named"
+grep -q 'class="card"' "$ws/out/allure/index.html" || fail "the report has no cards"
+python3 - "$ws/output.json" "$ws/out/allure" <<'PY' || fail "the report field must carry a path so the runner can archive it"
 import json, sys
 doc = json.load(open(sys.argv[1]))["data"]["report"]
 assert doc["type"] == "report", doc
-assert doc["path"].endswith("/out/allure-report"), doc
+assert doc["path"].endswith("/out/allure"), doc
 assert doc["target"] == "index.html", doc
 PY
 
