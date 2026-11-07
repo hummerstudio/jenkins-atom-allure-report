@@ -7,5 +7,7 @@ Allure 插件会去调 Allure 命令行，但真正有用的那半——**数字
 不装 Node、不装 Allure、不联网；`failOnFailure=true` 时有失败用例就让这一步红。
 
 ```bash
-./build.sh && ./tools/smoke.sh
+mvn verify
 ```
+
+`mvn verify` 打包 jar，再用 failsafe 按 runner 的契约（`input.json` + `atom_*` 环境变量）真跑一遍断言。
